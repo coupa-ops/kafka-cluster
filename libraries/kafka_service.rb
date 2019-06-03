@@ -100,14 +100,14 @@ module KafkaClusterCookbook
             only_if { new_resource.install_method == 'package' }
           end
 
-          libartifact_file "kafka_#{new_resource.scala_version}-#{new_resource.version}" do
-            artifact_name 'kafka'
-            artifact_version "#{new_resource.scala_version}-#{new_resource.version}"
-            install_path new_resource.install_path
-            remote_url format(new_resource.binary_url, version: new_resource.version, scala_version: new_resource.scala_version, mirror: new_resource.mirror)
-            remote_checksum new_resource.binary_checksum
-            only_if { new_resource.install_method == 'binary' }
-          end
+          # libartifact_file "kafka_#{new_resource.scala_version}-#{new_resource.version}" do
+          #   artifact_name 'kafka'
+          #   artifact_version "#{new_resource.scala_version}-#{new_resource.version}"
+          #   install_path new_resource.install_path
+          #   remote_url format(new_resource.binary_url, version: new_resource.version, scala_version: new_resource.scala_version, mirror: new_resource.mirror)
+          #   remote_checksum new_resource.binary_checksum
+          #   only_if { new_resource.install_method == 'binary' }
+          # end
 
           new_resource.data_dir.split(',').each do |datadir|
             directory datadir do
