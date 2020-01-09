@@ -13,9 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-kafka.logs.dir=logs
+log4j.rootLogger=INFO, stdout, kafkaAppender
 
-#kafka.logs.fileappender=org.apache.log4j.DailyRollingFileAppender
 kafka.logs.fileappender=<%= @fileAppender%>
 kafka.logs.maxfilesize=<%= @maxFileSize%>
 kafka.logs.maxbackupindex=<%= @maxNumFiles%>
@@ -68,30 +67,25 @@ log4j.appender.authorizerAppender.MaxBackupIndex=${kafka.logs.maxbackupindex}
 log4j.appender.authorizerAppender.layout=org.apache.log4j.PatternLayout
 log4j.appender.authorizerAppender.layout.ConversionPattern=[%d] %p %m (%c)%n
 
-# Turn on all our debugging info
-#log4j.logger.kafka.producer.async.DefaultEventHandler=DEBUG, kafkaAppender
-#log4j.logger.kafka.client.ClientUtils=DEBUG, kafkaAppender
-#log4j.logger.kafka.perf=DEBUG, kafkaAppender
-#log4j.logger.kafka.perf.ProducerPerformance$ProducerThread=DEBUG, kafkaAppender
+# Change the two lines below to adjust ZK client logging
+log4j.logger.org.I0Itec.zkclient.ZkClient=INFO
+log4j.logger.org.apache.zookeeper=INFO
 
-log4j.logger.kafka=<%= @loggerLevelKafka%>, kafkaAppender
-log4j.logger.org.apache.kafka=<%= @loggerLevelKafka%>, kafkaAppender
+# Change the two lines below to adjust the general broker logging level (output to server.log and stdout)
+log4j.logger.kafka=INFO
+log4j.logger.org.apache.kafka=INFO
 
-log4j.logger.org.I0Itec.zkclient=<%= @loggerLevelZk %>, kafkaAppender
-log4j.logger.org.apache.zookeeper=<%= @loggerLevelZk %>, kafkaAppender
+# Change to DEBUG or TRACE to enable request logging
+log4j.logger.kafka.request.logger=<%= @loggerLevelKafkaRequestLogger%>, requestAppender
+log4j.additivity.kafka.request.logger=false
 
-log4j.logger.kafka.network.RequestChannel$=<%= @loggerLevelKafkaNetworkRequestChannel%>, requestAppender
-log4j.additivity.kafka.network.RequestChannel$=false
-
-log4j.logger.kafka.network.Processor=<%= @loggerLevelKafkaNetworkProcessor%>, requestAppender
-log4j.additivity.kafka.network.Processor=false
-
+# Uncomment the lines below and change log4j.logger.kafka.network.RequestChannel$ to TRACE for additional output
+# related to the handling of requests
 #log4j.logger.kafka.network.Processor=TRACE, requestAppender
 #log4j.logger.kafka.server.KafkaApis=TRACE, requestAppender
 #log4j.additivity.kafka.server.KafkaApis=false
-
-log4j.logger.kafka.request.logger=<%= @loggerLevelKafkaRequestLogger%>, requestAppender
-log4j.additivity.kafka.request.logger=false
+log4j.logger.kafka.network.RequestChannel$=WARN, requestAppender
+log4j.additivity.kafka.network.RequestChannel$=false
 
 log4j.logger.kafka.controller=<%= @loggerLevelKafkaController%>, controllerAppender
 log4j.additivity.kafka.controller=false

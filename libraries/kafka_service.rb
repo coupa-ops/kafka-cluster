@@ -65,7 +65,7 @@ module KafkaClusterCookbook
 
       # @!attribute data_dir
       # @return [String]
-      attribute(:log_dir, kind_of: String, default: '/var/log/kafka')
+      attribute(:log_dir, kind_of: String, default: '/mnt/ephemeral/var/log/kafka')
 
       # @!attribute config_filename
       # @return [String]
